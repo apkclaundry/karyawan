@@ -42,10 +42,28 @@ function displayEmployees() {
   
   function deleteEmployee(index) {
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
-    employees.splice(index, 1); // Menghapus item berdasarkan index
-    localStorage.setItem('employees', JSON.stringify(employees));
-    displayEmployees(); // Menampilkan ulang data setelah penghapusan
+    
+    // Menampilkan SweetAlert2 untuk konfirmasi penghapusan
+    Swal.fire({
+      title: 'Anda yakin?',
+      text: "Data karyawan ini akan dihapus!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employees.splice(index, 1); // Menghapus item berdasarkan index
+        localStorage.setItem('employees', JSON.stringify(employees));
+        displayEmployees(); // Menampilkan ulang data setelah penghapusan
+        Swal.fire('Dihapus!', 'Data karyawan telah dihapus.', 'success');
+      } else if (result.isDismissed) {
+        Swal.fire('Dibatalkan', 'Penghapusan data karyawan dibatalkan.', 'info');
+      }
+    });
   }
+  
   
   function editEmployee(index) {
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
