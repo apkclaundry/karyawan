@@ -1,0 +1,87 @@
+/* Styling untuk tombol aksi */
+.actions {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  
+  .actions .edit {
+    color: blue;
+  }
+  
+  .actions .delete {
+    color: red;
+  }
+  
+  /* Container & Form Styling */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .title, .subtitle {
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  #employee-name, #employee-role, .btn-save {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+  }
+  
+  /* Table Styling */
+  #employee-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  #employee-table th, #employee-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Mobile-Friendly List Styling */
+  .employee-list {
+    display: none;
+  }
+  
+  .employee-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    #employee-table {
+      display: none;
+    }
+    .employee-list {
+      display: block;
+    }
+  }
+  

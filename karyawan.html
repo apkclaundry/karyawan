@@ -1,207 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Data Karyawan</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        form {
-            margin-bottom: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: calc(50% - 20px);
-            min-width: 200px;
-        }
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .actions button {
-            margin-right: 5px;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laundry POS - Manajemen Karyawan</title>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <!-- SweetAlert2 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.6/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Laundry POS - Manajemen Karyawan</h1>
+      <form id="employee-form">
+        <div class="form-group">
+          <label for="employee-name">Nama Karyawan</label>
+          <input
+            type="text"
+            id="employee-name"
+            placeholder="Masukkan nama karyawan"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="employee-role">Role</label>
+          <select id="employee-role" required>
+            <option value="" disabled selected>Pilih Role</option>
+            <option value="Laundry Cleaner">Laundry Cleaner</option>
+            <option value="Laundry Iron">Laundry Iron</option>
+            <option value="Laundry Kurir">Laundry Kurir</option>
+            <option value="Laundry Kasir">Laundry Kasir</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-save">Simpan</button>
+      </form>
 
-        /* Media Queries for Responsive Design */
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-                width: 100%;
-            }
-            thead tr {
-                display: none;
-            }
-            tr {
-                margin-bottom: 15px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                background-color: #fff;
-                padding: 10px;
-                border: 1px solid #ddd;
-            }
-            td {
-                display: flex;
-                justify-content: space-between;
-                padding: 10px;
-            }
-            td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                flex-basis: 40%;
-            }
-            input[type="text"] {
-                width: 100%;
-            }
-        }
+      <h2 class="subtitle">Data Karyawan</h2>
+      <div class="employee-list"></div>
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5em;
-            }
-            button {
-                width: 100%;
-                margin: 5px 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>Master Data Karyawan</h1>
-    <form id="employeeForm">
-        <input type="text" id="name" placeholder="Nama Karyawan" required>
-        <input type="text" id="position" placeholder="Jabatan" required>
-        <button type="submit">Tambah Karyawan</button>
-    </form>
-    <table>
+      <table id="employee-table">
         <thead>
-            <tr>
-                <th>Nama</th>
-                <th>Jabatan</th>
-                <th>Aksi</th>
-            </tr>
+          <tr>
+            <th>Nama Karyawan</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
         </thead>
-        <tbody id="employeeTableBody">
-            <!-- Data karyawan akan ditambahkan di sini -->
-        </tbody>
-    </table>
-
-    <script>
-        // Script tetap sama seperti sebelumnya
-        function addEmployee(name, position) {
-            const employees = JSON.parse(localStorage.getItem('employees')) || [];
-            employees.push({ name, position });
-            saveEmployees(employees);
-            addEmployeeToTable(name, position);
-        }
-
-        function addEmployeeToTable(name, position) {
-            const tableBody = document.getElementById('employeeTableBody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td data-label="Nama">${name}</td>
-                <td data-label="Jabatan">${position}</td>
-                <td data-label="Aksi" class="actions">
-                    <button onclick="editEmployee(this)">Edit</button>
-                    <button onclick="deleteEmployee(this)">Delete</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        }
-
-        function editEmployee(button) {
-            const row = button.parentElement.parentElement;
-            const name = row.children[0].innerText;
-            const position = row.children[1].innerText;
-            document.getElementById('name').value = name;
-            document.getElementById('position').value = position;
-            row.classList.add('editing');
-            document.getElementById('employeeForm').dataset.editing = true;
-            document.getElementById('employeeForm').dataset.editingIndex = Array.from(row.parentElement.children).indexOf(row);
-        }
-
-        document.getElementById('employeeForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const position = document.getElementById('position').value;
-            if (this.dataset.editing) {
-                const index = this.dataset.editingIndex;
-                updateEmployee(index, name, position);
-                delete this.dataset.editing;
-                delete this.dataset.editingIndex;
-            } else {
-                addEmployee(name, position);
-            }
-            document.getElementById('employeeForm').reset();
-        });
-
-        function updateEmployee(index, name, position) {
-            const employees = JSON.parse(localStorage.getItem('employees')) || [];
-            employees[index] = { name, position };
-            saveEmployees(employees);
-            loadEmployees();
-        }
-
-        function deleteEmployee(button) {
-            const row = button.parentElement.parentElement;
-            const name = row.children[0].innerText;
-            const position = row.children[1].innerText;
-            row.remove();
-            let employees = JSON.parse(localStorage.getItem('employees')) || [];
-            employees = employees.filter(employee => employee.name !== name || employee.position !== position);
-            saveEmployees(employees);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            loadEmployees();
-        });
-
-        function loadEmployees() {
-            const employees = JSON.parse(localStorage.getItem('employees')) || [];
-            employees.forEach(employee => addEmployeeToTable(employee.name, employee.position));
-        }
-
-        function saveEmployees(employees) {
-            localStorage.setItem('employees', JSON.stringify(employees));
-        }
-    </script>
-</body>
+        <tbody></tbody>
+      </table>
+    </div>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.6/dist/sweetalert2.min.js"></script>
+    <script src="src/js/app.js" type="module"></script>
+  </body>
 </html>
