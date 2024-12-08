@@ -113,3 +113,4 @@ function displayEmployees() {
   });
   
   window.editEmployee = editEmployee;
+  window.deleteEmployee = deleteEmployee;
